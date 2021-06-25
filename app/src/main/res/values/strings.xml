@@ -6,6 +6,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="EUR">EUR</string>
+
+
     <string name="EGP">EGP</string>
     <string name="USD">USD</string>
     <string name="AED">AED</string>
@@ -17,5 +20,6 @@
     <string name="ARS">ARS</string>
     <string name="AUD">AUD</string>
 
+    <string name="online">Online</string>
 
 </resources>

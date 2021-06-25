@@ -5,7 +5,6 @@ class CurrencyRatesResponse (val success: Boolean,
                              val timestamp: Long,
                              val base: String,
                              val date: String,
-                             var currencies : ArrayList<CurrencyRate> = ArrayList<CurrencyRate>(),
                              val rates:CurrencyRatesData){
 
 }
