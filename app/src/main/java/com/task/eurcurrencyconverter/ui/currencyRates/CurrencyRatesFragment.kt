@@ -1,4 +1,4 @@
-package com.task.eurcurrencyconverter.ui
+package com.task.eurcurrencyconverter.ui.currencyRates
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,20 +7,24 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.task.eurcurrencyconverter.R
 import com.task.eurcurrencyconverter.model.CurrencyData.CurrencyRate
-import com.task.eurcurrencyconverter.ui.Adapter.CurrenciesAdapter
+import com.task.eurcurrencyconverter.ui.currencyRates.Adapter.CurrenciesAdapter
+import com.task.eurcurrencyconverter.ui.currency_exchange.CurrencyExchangeFragment
 import com.task.eurcurrencyconverter.utils.LoadingDialog
 import kotlinx.android.synthetic.main.fragment_currensy_rates.*
+import sa.waqood.alborg_customer.utils.Constants.SELECTED_CURRENCY_NAME_KEY
+import sa.waqood.alborg_customer.utils.Constants.SELECTED_CURRENCY_RATE_KEY
 
 
 class CurrencyRatesFragment : Fragment() {
 
 
     private val currencyViewModel: CurrencyViewModel by lazy {
-        ViewModelProvider(requireActivity()).get(CurrencyViewModel::class.java)
+        ViewModelProvider(this).get(CurrencyViewModel::class.java)
     }
     private val loadingDialog: LoadingDialog by lazy {
         LoadingDialog(requireActivity())
@@ -54,6 +58,11 @@ class CurrencyRatesFragment : Fragment() {
                 currencyViewModel.getCurrencyRates(isChecked)
             }
         })
+        btnRefresh.setOnClickListener {
+            loadingDialog.show()
+            //Load currency rates data
+            currencyViewModel.getCurrencyRates(switchOnline.isChecked)
+        }
     }
 
     private fun initData()
@@ -63,7 +72,7 @@ class CurrencyRatesFragment : Fragment() {
         //Load currency rates data
         currencyViewModel.getCurrencyRates(switchOnline.isChecked)
 
-        currencyViewModel.getCurrencyRatesData()?.observe(requireActivity(), Observer {
+        currencyViewModel.getCurrencyRatesData().observe(requireActivity(), Observer {
             loadingDialog.cancel()
             //view currency rates
             currencyRatesList.clear()
@@ -83,10 +92,23 @@ class CurrencyRatesFragment : Fragment() {
                 object :
                     CurrenciesAdapter.ClickListener {
                     override fun onItemClick(pos: Int) {
+                        val bundle = Bundle()
+                        bundle.putString(SELECTED_CURRENCY_NAME_KEY,currencyRatesList[pos].currencyName)
+                        bundle.putDouble(SELECTED_CURRENCY_RATE_KEY,currencyRatesList[pos].rate)
+                        openCurrencyExchangeFragment(bundle)
                     }
                 }
             )
         rvCurrencies.adapter=currenciesAdapter
+    }
+
+    private fun openCurrencyExchangeFragment(bundle :Bundle) {
+        val currencyExchangeFragment: Fragment = CurrencyExchangeFragment()
+        currencyExchangeFragment.arguments = bundle
+        val transaction: FragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction()
+        transaction.add(R.id.nav_host_fragment, currencyExchangeFragment)
+        transaction.addToBackStack("Home")
+        transaction.commit()
     }
 
 }

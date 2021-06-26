@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
+    android:clickable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.CurrencyRatesFragment">
+    tools:context=".ui.currencyRates.CurrencyRatesFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="8dp"
         android:background="@color/light_blue"
         >
 
@@ -35,6 +37,18 @@
             android:drawablePadding="5dp"
             android:checked="false"
             />
+
+        <TextView
+            android:id="@+id/btnRefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/refresh"
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

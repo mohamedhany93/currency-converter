@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.task.eurcurrencyconverter.R
+import com.task.eurcurrencyconverter.ui.currencyRates.CurrencyRatesFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,11 +16,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openCurrencyRatesFragment() {
-
-        val productDetailsFragment: Fragment = CurrencyRatesFragment()
+        val currencyRatesFragment: Fragment = CurrencyRatesFragment()
         val transaction: FragmentTransaction = getSupportFragmentManager().beginTransaction()
-        transaction.add(R.id.nav_host_fragment, productDetailsFragment)
-        transaction.addToBackStack("Home")
+        transaction.replace(R.id.nav_host_fragment, currencyRatesFragment)
         transaction.commit()
     }
 }

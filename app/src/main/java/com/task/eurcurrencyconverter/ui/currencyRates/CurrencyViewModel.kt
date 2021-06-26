@@ -1,4 +1,4 @@
-package com.task.eurcurrencyconverter.ui
+package com.task.eurcurrencyconverter.ui.currencyRates
 
 import android.app.Application
 import android.util.Log
@@ -12,8 +12,10 @@ import com.task.eurcurrencyconverter.model.CurrencyData.CurrencyRate
 import com.task.eurcurrencyconverter.model.CurrencyData.CurrencyRatesData
 import com.task.eurcurrencyconverter.model.CurrencyData.CurrencyRatesResponse
 import com.task.eurcurrencyconverter.repository.CurrencyRepository
+import kotlinx.android.synthetic.main.fragment_currency_exchange.*
 import network.ApiExceptions
 import network.NoInternetException
+import sa.waqood.alborg_customer.utils.Constants
 
 class CurrencyViewModel : BaseViewModel() {
 
@@ -22,15 +24,15 @@ class CurrencyViewModel : BaseViewModel() {
         responseError = currencyRepository.getErrorResponseData()
     }
     
-    var currencies : ArrayList<CurrencyRate> = ArrayList<CurrencyRate>()            
-            
+    var currencies : ArrayList<CurrencyRate> = ArrayList<CurrencyRate>()
+
     private var currencyCurrencyRatesData: MutableLiveData<ArrayList<CurrencyRate>>? = null
 
-    fun getCurrencyRatesData(): MutableLiveData<ArrayList<CurrencyRate>>? {
+    fun getCurrencyRatesData(): MutableLiveData<ArrayList<CurrencyRate>> {
         if (currencyCurrencyRatesData == null) {
             currencyCurrencyRatesData = MutableLiveData()
         }
-        return currencyCurrencyRatesData
+        return currencyCurrencyRatesData!!
     }
 
     fun getCurrencyRates(online:Boolean)
@@ -43,20 +45,10 @@ class CurrencyViewModel : BaseViewModel() {
 
         currencies.clear()
 
-        currencies.add(
-            CurrencyRate(
-                MyApplication.appInstance.resources.getString(
+        currencies.add(CurrencyRate(MyApplication.appInstance.resources.getString(
                     R.string.EGP
-                ), it.EGP
-            )
-        )
-        currencies.add(
-            CurrencyRate(
-                MyApplication.appInstance.resources.getString(
-                    R.string.USD
-                ), it.USD
-            )
-        )
+                ), it.EGP))
+        currencies.add(CurrencyRate(MyApplication.appInstance.resources.getString(R.string.USD), it.USD))
         currencies.add(
             CurrencyRate(
                 MyApplication.appInstance.resources.getString(
